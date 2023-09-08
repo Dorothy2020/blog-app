@@ -1,18 +1,24 @@
+from typing import List
 from pydantic import BaseModel
 
 
-class Blog(BaseModel):
+class BlogBase(BaseModel):
     title:str
     body: str
-#we call pydantic models schema
 
-#will create another schema to show blog
-class ShowBlog(BaseModel):
-    title:str
-    body:str
 
+class Blog(BlogBase):
     class Config:
-        orm_mode =True
+        orm_mode = True
+
+
+# class ShowBlog(BaseModel):
+#     title:str
+#     body:str
+#     creator:ShowUser
+
+    # class Config:
+    #     orm_mode = True
 
 # create a User
 
@@ -20,4 +26,21 @@ class User(BaseModel):
     name:str
     email:str
     password:str
+
+class ShowUser(BaseModel):
+    name:str
+    email:str
+    blogs: List[Blog]
+    class Config:
+        orm_mode = True
+
+
+class ShowBlog(BaseModel):
+    title:str
+    body:str
+    creator:ShowUser
+
+    class Config:
+        orm_mode = True
+
 
